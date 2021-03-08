@@ -12,8 +12,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
-    # Uncomment below line to only build preview based on PR branch name
-    # if: ${{ github.event_name == 'push' || startsWith(github.head_ref, 'pkgdown/') }}
+    if: ${{ github.event_name == 'push' || startsWith(github.head_ref, 'pkgdown/') }}
     runs-on: ubuntu-18.04
     env:
       RSPM: https://packagemanager.rstudio.com/cran/__linux__/bionic/latest
@@ -46,19 +45,21 @@ jobs:
           pak::pkg_system_requirements("pkgdown", execute = TRUE)
         shell: Rscript {0}
 
-      - name: Install optipng
-        # required to optimize images
-        run: brew install optipng
-
       - name: Install package and dependencies
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("r-lib/pkgdown")
-          pak::pkg_install("rstudio/webshot2") # for screenshot
+          pak::pkg_install("rstudio/quillt")
         shell: Rscript {0}
 
       - name: Install package
         run: R CMD INSTALL .
+
+      - name: Cache some pkgdown assets
+        uses: actions/cache@v2
+        with:
+          path: 'vignettes/articles/images/*.png'
+          key: 1-${{ hashFiles('vignettes/articles/examples.yml') }}
 
       - name: Build pkgdown site
         run: pkgdown::build_site(new_process = FALSE)

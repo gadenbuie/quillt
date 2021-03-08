@@ -1,15 +1,15 @@
-destination: reference
+destination: {{ destdir }}
 
 # website will be referenced on https://pkgs.rstudio.com/
 # Open a PR in https://github.com/rstudio/pkgs.rstudio.com
-url: https://pkgs.rstudio.com/quillt/
+url: https://pkgs.rstudio.com/{{{ Package }}}/
 
 template:
   package: quillt
   opengraph:
     image:
       src: man/figures/logo.png
-      alt: "quillt package"
+      alt: "{{{ Package }}} package"
     twitter:
       creator: "@rstudio"
       card: summary
@@ -45,7 +45,7 @@ navbar:
       href: reference/index.html
     github:
       icon: fab fa-github fa-lg
-      href: https://github.com/rstudio/quillt
+      href: {{ github_url }}
     news:
       text: News
       menu:
@@ -58,17 +58,22 @@ navbar:
         # - text: Version 0.2
         #   href: <url>
 
-reference:
-- title: Examples gallery helpers
-  desc: >
-    These functions are useful helpers to create a gallery of showcased example
-  contents:
-  - examples
-  - thumbnail
-  - thumbnails
-
-- title: Setup a quillt template project
-  desc: >
-    These functions are usethis-like helpers to set up a pkgdown website with a quillt template
-  contents:
-  - starts_with("use")
+# structure example
+# reference:
+# - title: Output formats
+#   desc: >
+#     These output formats are for building ...
+#   contents:
+#
+# - title: Previewing and rendering books
+#   contents:
+#
+# - title: Publishing
+#   desc: >
+#     Publish...
+#
+#
+# - title: Helper functions
+#   desc: >
+#     These functions are utility functions when working with **{{{ Package }}}**.
+#   contents:
